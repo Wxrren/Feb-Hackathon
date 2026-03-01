@@ -104,7 +104,7 @@ export default function ComparisonBarPlot({
 	if (noData) {
 		return (
 			<div className='bg-white/70 rounded-2xl shadow p-4'>
-				<div className='text-sm opacity-70'>No comparison data available.</div>
+				<div className='text-sm opacity-70'>Only available for Country and Region</div>
 			</div>
 		);
 	}
