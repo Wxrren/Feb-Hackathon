@@ -101,7 +101,6 @@ export default function ChoroplethMap({ rows = [], level, quarter, metric }) {
 		return map;
 	}, [slicedRows, metric, level]);
 
-	// ✅ Only include geo locations that actually have data values
 	const geoLocations = useMemo(() => {
 		if (!geojson?.features || !feature.nameProp) return [];
 		return geojson.features
@@ -129,8 +128,6 @@ export default function ChoroplethMap({ rows = [], level, quarter, metric }) {
 	if (loading || !geojson?.features?.length)
 		return <div className='p-4 text-gray-600'>Loading map…</div>;
 
-	// ✅ CRITICAL: Plotly geo can throw if it mounts while container width is 0
-	// (this often happens once right after switching tabs/level)
 	if (plotWrapWidth <= 0) {
 		return <div className='p-4 text-gray-600'>Preparing map…</div>;
 	}
@@ -143,8 +140,6 @@ export default function ChoroplethMap({ rows = [], level, quarter, metric }) {
 			</div>
 		);
 	}
-
-	// ✅ Remount Plotly when level OR container width changes (most reliable for geo)
 	const plotKey = `choropleth-${level}-${plotWrapWidth}`;
 
 	return (
@@ -200,10 +195,7 @@ export default function ChoroplethMap({ rows = [], level, quarter, metric }) {
 						title: null,
 						dragmode: false,
 						geo: {
-							// ✅ only fitbounds when safe
 							fitbounds: hasAnyValue ? 'locations' : false,
-
-							// ✅ avoid geo.visible:false
 							showframe: false,
 							showcoastlines: false,
 							showland: false,
